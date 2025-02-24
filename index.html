@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Player</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <style>
+        ::-webkit-scrollbar {
+            background-color: black;
+        }
+
+        .nav {
+            background-color: black;
+            width: 100%;
+            height: 4rem;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .nav a {
+            margin-left: 2rem;
+            font-size: 1.5rem;
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .css, .js {
+            display: none;
+        }
+
+        .container {
+            display: flex;
+        }
+
+        .html, .css, .js {
+            height: 100vh;
+            width: 50%;
+            background-color: rgb(32, 32, 32);
+            border: 2px solid black;
+            padding: 20px;
+        }
+
+        .output {
+            height: 100vh;
+            width: 50%;
+            background-color: rgb(32, 32, 32);
+            border: 2px solid black;
+            overflow: scroll;
+            padding: 20px;
+        }
+
+        div h2 {
+            color: white;
+        }
+
+        .textarea {
+            background-color: rgb(32, 32, 32);
+            width: 100%;
+            height: 80vh;
+            color: white;
+            border-right: none;
+            padding: 10px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 90%;
+            border: none;
+            background-color: rgb(32, 32, 32);
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="nav">
+        <a id="html-btn">HTML</a>
+        <a id="css-btn">CSS</a>
+        <a id="js-btn">JS</a>
+    </nav>
+
+    <div class="container">
+        <div class="html">
+            <h2>HTML</h2>
+            <textarea class="textarea" id="textarea-html"></textarea>
+        </div>
+        <div class="css">
+            <h2>CSS</h2>
+            <textarea class="textarea" id="textarea-css"></textarea>
+        </div>
+        <div class="js">
+            <h2>JS</h2>
+            <textarea class="textarea" id="textarea-js"></textarea>
+        </div>
+        <div class="output">
+            <h2>OUTPUT</h2>
+            <iframe id="Oframe"></iframe>
+        </div>
+    </div>
+
+    <script>
+        // Toggle between html,css,and js
+        $("#html-btn").click(function () {
+            $(".html").show();
+            $(".css").hide();
+            $(".js").hide();
+        });
+
+        $("#css-btn").click(function () {
+            $(".html").hide();
+            $(".css").show();
+            $(".js").hide();
+        });
+
+        $("#js-btn").click(function () {
+            $(".html").hide();
+            $(".css").hide();
+            $(".js").show();
+        });
+
+        function updateOutput() {
+            let htmlCode = $("#textarea-html").val();
+            let cssCode = `<style>
+                body { background-color: rgb(32, 32, 32); color: white; } /* ✅ Ensure text inside iframe is white */
+                ${$("#textarea-css").val()}
+            </style>`;
+            let jsCode = `<script>${$("#textarea-js").val()}<\/script>`;
+
+            let iframe = document.getElementById("Oframe").contentWindow.document;
+            iframe.open();
+            iframe.write(htmlCode + cssCode + jsCode);
+            iframe.close();
+        }
+
+        // function decleared 
+        $(".textarea").on("input", updateOutput);
+    </script>
+
+</body>
+</html>
