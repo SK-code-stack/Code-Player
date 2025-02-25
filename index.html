@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Player</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="codeplay.css">
+</head>
+<body>
+
+    <nav class="nav">
+        <div class="logo">S/K</div>
+        <div class="a">
+            <a id="html-btn">HTML</a>
+            <a id="css-btn">CSS</a>
+            <a id="js-btn">JS</a>
+        </div>
+        
+        <div class="live">
+            <!-- live server -->
+            <label class="lns-checkbox ml-2">
+                <input type="checkbox"  class="liveCbox">
+                <span>Live Server</span>
+              </label>
+            
+        </div>
+
+    </nav>
+
+    <div class="container">
+        <div class="html">
+            <h2>HTML</h2>
+            <textarea class="textarea" id="textarea-html"></textarea>
+        </div>
+        <div class="css">
+            <h2>CSS</h2>
+            <textarea class="textarea" id="textarea-css"></textarea>
+        </div>
+        <div class="js">
+            <h2>JS</h2>
+            <textarea class="textarea" id="textarea-js"></textarea>
+        </div>
+        <div class="output">
+            <div class="runBtnContainer">
+                <h2>OUTPUT</h2>
+                    <div class="container-btn">
+                    <label>
+                    <input type="checkbox" id="runbtn" class="play-btn"/>
+                    <div class="play-icon"></div>
+                    <div class="pause-icon"></div>
+                    </label>
+                </div>
+            </div>
+          
+                
+            <iframe id="Oframe"></iframe>
+        </div>
+    </div>
+
+    <script>
+        // Toggle between html,css,and js
+        $("#html-btn").click(function () {
+            $(".html").show();
+            $(".css").hide();
+            $(".js").hide();
+        });
+
+        $("#css-btn").click(function () {
+            $(".html").hide();
+            $(".css").show();
+            $(".js").hide();
+        });
+
+        $("#js-btn").click(function () {
+            $(".html").hide();
+            $(".css").hide();
+            $(".js").show();
+        });
+
+        function updateOutput() {
+            let htmlCode = $("#textarea-html").val();
+            let cssCode = `<style>
+                body { background-color: rgb(32, 32, 32); color: white; } */
+                ${$("#textarea-css").val()}
+            </style>`;
+            let jsCode = `<script>${$("#textarea-js").val()}<\/script>`;
+
+            let iframe = document.getElementById("Oframe").contentWindow.document;
+            iframe.open();
+            iframe.write(htmlCode + cssCode + jsCode);
+            iframe.close();
+        }
+
+        // live server
+        $(".liveCbox").change(function() {
+        if ($(this).prop("checked")) {
+            $(".textarea").on("input", updateOutput); 
+            $(".container-btn").hide();
+        } else {
+            $(".textarea").off("input", updateOutput); 
+            $(".container-btn").show();
+        }
+    });
+    // run btn
+        $("#runbtn").change(function() {
+            if ($(this).prop("checked")) {
+                updateOutput(); 
+            }
+        });
+        
+
+    </script>
+
+</body>
+</html>
