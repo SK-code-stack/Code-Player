@@ -82,7 +82,7 @@
         function updateOutput() {
             let htmlCode = $("#textarea-html").val();
             let cssCode = `<style>
-                body { background-color: rgb(32, 32, 32); color: white; } 
+                body { background-color: rgb(32, 32, 32); color: white; } b
                 ${$("#textarea-css").val()}
             </style>`;
             let jsCode = `<script>${$("#textarea-js").val()}<\/script>`;
@@ -104,10 +104,15 @@
         }
     });
     // run btn
-        $("#runbtn").change(function() {
-            if ($(this).prop("checked")) {
-                updateOutput(); 
-            }
+    $("#runbtn").change(function() {
+        if ($(this).prop("checked")) {
+            updateOutput(); 
+            $(".textarea").on("input", updateOutput); 
+        }
+        else{
+            $(".textarea").off("input", updateOutput); 
+        }
+
         });
         
 
